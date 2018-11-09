@@ -5,8 +5,10 @@ HS2=${2:-localhost:10000}
 DRUID_HOST=${3:-$(hostname)}
 DRUID_USERNAME=${4:-druid}
 DRUID_PASSWORD=${5:-password}
-BEELINE_RAW="beeline -u jdbc:hive2://$HS2/ssb_${SCALE}_raw"
-BEELINE_ORC="beeline -u jdbc:hive2://$HS2/ssb_${SCALE}_flat_orc"
+CONNECTION_OPTIONS=${6:-;zooKeeperNamespace=hiveserver2}
+BEELINE_DEFAULT="beeline -u jdbc:hive2://$HS2/default$CONNECTION_OPTIONS"
+BEELINE_RAW="beeline -u jdbc:hive2://$HS2/ssb_${SCALE}_raw$CONNECTION_OPTIONS"
+BEELINE_ORC="beeline -u jdbc:hive2://$HS2/ssb_${SCALE}_flat_orc$CONNECTION_OPTIONS"
 
 # Pre-flight checks.
 for f in gcc javac mvn; do
