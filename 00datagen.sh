@@ -30,7 +30,7 @@ if [ $? -ne 0 ];  then
 
 	echo "Generate the data at scale $SCALE"
 	hadoop jar target/ssb-gen-1.0-SNAPSHOT.jar -d /tmp/ssb/${SCALE}/ -s ${SCALE}
-	$BEELINE_RAW -e "create database ssb_${SCALE}_raw; create database ssb_${SCALE}_flat_orc;" -n ${USER}
+	$BEELINE_DEFAULT -e "create database ssb_${SCALE}_raw; create database ssb_${SCALE}_flat_orc;" -n ${USER}
 	$BEELINE_RAW --hivevar LOCATION=/tmp/ssb/${SCALE} -f ddl/text.sql -n ${USER}
 	$BEELINE_ORC --hivevar SOURCE=ssb_${SCALE}_raw -f ddl/orc_flat.sql -n ${USER}
 	$BEELINE_ORC --hivevar SOURCE=ssb_${SCALE}_raw -f ddl/analyze_flat.sql -n ${USER}
